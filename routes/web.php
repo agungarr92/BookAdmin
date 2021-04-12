@@ -23,7 +23,7 @@ Route::get('/', function () {
 Route::get('/profile', [App\Http\Controllers\ProfileController::class, 'index'])->name('profile');
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
-Route::get('admin/home', [BookController::class, 'index'])
+Route::get('admin/home', [AdminController::class, 'index'])
     ->name('admin.home')
     ->middleware('is_admin');
 
@@ -44,12 +44,12 @@ Route::delete('admin/books/delete', [BookController::class, 'destroy'])
     ->middleware('is_admin');
 
 //PENGELOLAAN BUKU
-Route::post('admin/books', [BookController::class, 'submit_book'])
+Route::post('admin/books', [AdminController::class, 'submit_book'])
     ->name('admin.book.submit')
     ->middleware('is_admin');
 
 //UPDATE BOOK
-Route::patch('admin/books/update', [BookController::class, 'update_book'])
+Route::patch('admin/books/update', [AdminController::class, 'update_book'])
     ->name('admin.book.update')
     ->middleware('is_admin');
 //PDF
