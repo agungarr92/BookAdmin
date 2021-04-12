@@ -97,4 +97,5 @@ public function update_book(Request $req)
         return redirect()->route('admin.books')->with($notification);
     }
 
+
 }
