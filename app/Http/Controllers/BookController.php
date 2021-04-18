@@ -150,7 +150,7 @@ class BookController extends Controller
         $book = Book::find($req->id);
         Storage::delete('public/cover_buku/'.$req->get('old_cover'));
         $book->delete();
-
+     
         $notification = array(
             'message' => 'Data buku berhasil dihapus',
             'alert-type' => 'success'
