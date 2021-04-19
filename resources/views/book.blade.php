@@ -15,6 +15,9 @@
                        {{-- {{ __('Pengelolaan Buku') }} --}}
                        <button class="btn btn-primary" data-toggle="modal" data-target="#tambahBukuModal"><i class="fa fa-plus"></i> Tambah Data</button>
                        <a href="{{ route('admin.print.books') }}" target="_blank" class="btn btn-secondary float-right"><i class="fa fa-print"></i>Cetak PDF</a>
+
+                        <a href="{{ route('admin.book.export') }}" class="btn btn-info" target="_blank">Export</a>
+                        <a href="btn btn-warning" class="btn btn-warning" target="_blank">Import</a>
                     </div>
                    <div class="card-body">
                        <table id="table-data" class="table table-borderer display nowrap" style="width:100%">

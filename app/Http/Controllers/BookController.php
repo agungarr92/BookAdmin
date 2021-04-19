@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Book;
+use App\Exports\BookExport;
+use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
@@ -10,11 +12,7 @@ use PDF;
 
 class BookController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
     public function index()
     {
         $user = Auth::user();
@@ -22,23 +20,7 @@ class BookController extends Controller
         return view('book', compact('user', 'books'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $req)
+    public function submit_book(Request $req)
     {
         $book = new Book;
 
@@ -50,15 +32,14 @@ class BookController extends Controller
         if ($req->hasFile('cover')) {
             $extension = $req->file('cover')->extension();
 
-            $filename = 'cover_buku_'.time().'.'.$extension;
-
+            $filename = 'cover_buku' . time() . '.' . $extension;
             $req->file('cover')->storeAs(
-                'public/cover_buku', $filename
+                'public/cover_buku',
+                $filename
             );
 
             $book->cover = $filename;
         }
-
         $book->save();
 
         $notification = array(
@@ -67,38 +48,7 @@ class BookController extends Controller
         );
 
         return redirect()->route('admin.books')->with($notification);
-
     }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Book  $book
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Book $book)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Book  $book
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Book $book)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Book  $book
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $req)
     {
         $book = Book::find($req->get('id'));
@@ -111,13 +61,14 @@ class BookController extends Controller
         if ($req->hasFile('cover')) {
             $extension = $req->file('cover')->extension();
 
-            $filename = 'cover_buku_'.time().'.'.$extension;
+            $filename = 'cover_buku_' . time() . '.' . $extension;
 
             $req->file('cover')->storeAs(
-                'public/cover_buku', $filename
+                'public/cover_buku',
+                $filename
             );
 
-            Storage::delete('public/cover_buku/'.$req->get('old_cover'));
+            Storage::delete('public/cover_buku/' . $req->get('old_cover'));
 
             $book->cover = $filename;
         }
@@ -130,15 +81,8 @@ class BookController extends Controller
         );
 
         return redirect()->route('admin.books')->with($notification);
-
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Book  $book
-     * @return \Illuminate\Http\Response
-     */
     public function getDataBuku($id)
     {
         $buku = Book::find($id);
@@ -148,16 +92,15 @@ class BookController extends Controller
     public function destroy(Request $req)
     {
         $book = Book::find($req->id);
-        Storage::delete('public/cover_buku/'.$req->get('old_cover'));
+        Storage::delete('public/cover_buku/' . $req->get('old_cover'));
         $book->delete();
-     
+
         $notification = array(
             'message' => 'Data buku berhasil dihapus',
             'alert-type' => 'success'
         );
 
         return redirect()->route('admin.books')->with($notification);
-
     }
     public function print_books()
     {
@@ -166,6 +109,8 @@ class BookController extends Controller
         $pdf = PDF::loadview('print_books', ['books' => $books]);
         return $pdf->download('data_buku.pdf');
     }
-
-
+    public function export()
+    {
+        return Excel::download(new BooksExport, 'book.xlsx');
+    }
 }
