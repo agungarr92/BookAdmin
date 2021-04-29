@@ -1,8 +1,8 @@
 <?php
 
 namespace Database\Seeders;
-
 use App\Models\Role;
+
 use Illuminate\Database\Seeder;
 
 class CreateRolesSeeder extends Seeder
@@ -14,16 +14,16 @@ class CreateRolesSeeder extends Seeder
      */
     public function run()
     {
-        $data = [
+        $role = [
             [
-                'name' => 'Admin',
+                'name' => 'admin'
             ],
             [
-                'name' => 'User',
-            ],
+                'name' => 'user'
+            ]
         ];
 
-        foreach ($data as $key => $value) {
+        foreach ($role as $key => $value){
             Role::create($value);
         }
     }

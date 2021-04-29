@@ -73,9 +73,6 @@
 
     <!-- Toastr -->
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css">
-    {{-- datepicker --}}
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.4/css/bootstrap-datepicker.css" rel="stylesheet"/>
-    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet"/>
 
 </head>
 
@@ -107,9 +104,6 @@
         @endif
     @endif
 
-    {{-- Custom Scripts --}}
-    @yield('adminlte_js')
-
     <!-- Toastr -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
 
@@ -134,20 +128,13 @@
                 break;
         }
         @endif
-
         @if ($errors->any())
             toastr.error("{{ $errors }}");
         @endif
-
         $('#table-data').DataTable();
         let baseurl = "<?=url('/')?>";
-        let fullURL = "<?=url()->full()?>";
+        let fullurl = "<?=url()->full()?>";
     </script>
-
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.4/js/bootstrap-datepicker.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-
 
 </body>
 
